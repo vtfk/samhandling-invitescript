@@ -9,9 +9,54 @@ Skriptet er utviklet av Vestfold og Telemark fylkeskommune. Denne veiledningen e
 
 ## Oppdatering til ModernAuth
 **Må gjøres før 31.12.2022**
+- Stopp scriptet (tasken) om det kjører før du gjør endringer
+- Åpne Powershell med brukeren som skal kjøre scriptet SCREENSHOT
+- Installer powershell PnP Module med kommandoen  `Install-Module -Name "PnP.PowerShell`
+- Kjør først kommandoen under for å sette nytt passord på PNP-brukeren du har fått fra VTFK:
+   
+    `Connect-PnPOnline -Url https://samhandling.sharepoint.com/sites/b2bmembershipdata -Interactive`  
+- Logg på i påloggingsvinuet som dukker opp med PNP-brukeren du har fått av VTFK – sett nytt passord, og lagre dette trygt 
+- Kjør kommandoen under for å legge inn credentials med det NYE PASSORDET til PNP-brukeren i Windows Credential Store: 
+
+    `New-StoredCredential -Comment 'Samhandling-service-bruker' -Credentials $(Get-Credential) -Target '<PNP-bruker-upn>' -Persist ‘LocalMachine’` 
+- Kjør kommandoen under for å bekrefte at passordet har blitt lagret og brukeren har tilgang på SharePoint:
+    `Connect-PnPOnline -Url https://samhandling.sharepoint.com/sites/b2bmembershipdata -Credential  (Get-StoredCredential -Target "<PNP-bruker-upn") `
+- Oppdater konfigurasjon i invite-skriptet (linje 27 og 28 i originalskriptet. Se under:).
+```ps1
+#region Script Configuration: Source Azure AD Tenant
+
+# Add source AAD tenant ID
+$configSourceTenantID = "organisasjon.onmicrosoft.com"
+
+# Add UserPrincipalName for AAD Service Account in source AAD tenant
+$configSourceServiceAccountUPN = "Samhandlingb2binviteUser@organisasjon.no"
 
 
+### DENNE MÅ LEGGES TIL ### 
+# Add UserPrincipalName for PnP Service Account in samhandling AAD tenant (provided by samhandling.org host county (VTFK))
+$configSourcePnPServiceAccountUPN = "organisasjon-pnp-user@samhandling.onmicrosoft.com"
+### END DENNE MÅ LEGGES TIL ###
 
+
+# Add SecureString for AAD Service Account password in source AAD tenant. See readme how to create this
+$configSourceServiceAccountSecurePassword = 'longsupersecurestring'
+
+# Add AAD Groups to scope B2B Users in source AAD tenant
+$configSourceGroupsToInvite = "TILGANGSGRUPPE1", "TILGANGSGRUPPE2", "TILGANGSGRUPPE3"
+
+# Add a filename and path for saving local logfile with invited users data
+$configSourceLogfilePreviouslyInvitedUsers = "D:\localScriptPath\b2binvitedusers-organization.txt"
+
+# Add a filepath for creating local csv file with membership data (exports to Master Organization)
+$configSourceMembershipDataCsv = "D:\localScriptPath\export-membershipdata-organization.csv"
+
+# Enable extensive logging to EventLog
+$configSourceExtensiveLogging = $true
+
+#endregion
+```
+- Legg inn den nye [modul-filen](./Azure-AD-B2B-Invite-Module.psm1) (kall den andre _old først, også legger du inn den nye) 
+- Nå kan du kjøre scriptet som før (starte tasken)
 ## Konfigurasjon
 
 ### Forutsetninger
@@ -46,13 +91,13 @@ Send kontoens UPN til VTFK på mailadresse *sdikt@vfk.no*, slik at VFK kan legge
  `Read-Host -AsSecureString | ConvertFrom-SecureString`
 
     3.	Skriv inn passordet til AzureAD servicekontoen
-    4.	Resultatet er den krypterte strengen som skal benyttes i kap. 1.4. Ta derfor vare på denne.
+    4.	Resultatet er den krypterte strengen som skal benyttes i [Grupper](#grupper). Ta derfor vare på denne.
 
 **MERK:**
 Hvis Powershell-scriptet flyttes til en annen server, eller en annen Windows servicekonto skal ta over kjøringen av scriptet, så må man kjøre Powershell-kommandoen igjen for å opprette ny kryptert string. Merk at brukere med lokal-administratortilgang på serveren der strengen krypteres, kan i teorien hente ut passordet i klartekst.
 
 ### Grupper
-Brukere blir meldt inn og gitt tilgang til samhandling.org basert på grupper i partnerorganisasjonen AzureAD. Opprett en eller flere grupper i AzureAD, meld brukerne inn i disse avhengig av hva de skal ha tilgang til og noter navnet på den/disse. Dette vil bli brukt videre i kap. 1.5.
+Brukere blir meldt inn og gitt tilgang til samhandling.org basert på grupper i partnerorganisasjonen AzureAD. Opprett en eller flere grupper i AzureAD, meld brukerne inn i disse avhengig av hva de skal ha tilgang til og noter navnet på den/disse. Dette vil bli brukt videre i [skript](#skript).
 
 Eksempel:
 
@@ -95,12 +140,12 @@ Merk at hvis AzureAD, SharePoint PnP eller event loggen mangler på serveren der
 
 | Parameter | $configSourceServiceAccountUPN |
 | --- | --- |
-| Beskrivelse | UserPrincipalName for b2binvite-servicekonto. Se kap. 1.1 |
+| Beskrivelse | UserPrincipalName for b2binvite-servicekonto. Se [forutsetning](#forutsetninger) |
 | Eksempel | "samhandlingb2binvite@vtfk.no" |
 
 | Parameter | $configSourceServiceAccountSecurePassword |
 | --- | --- |
-| Beskrivelse | Den krypterte strengen som ble laget under punkt 3d i kap 1.1 |
+| Beskrivelse | Den krypterte strengen som ble laget i [servicekonto](#servicekonto) |
 | Eksempel | "01000000d08c9ddf0000d08c9ddf0115d01000000d08c9ddf0115d101000000d08c9ddf0115d101000000d08c9ddf0115d101000000d08c9ddf0115d101000000d08c9ddf0115d1" |
 
 | Parameter | $configSourceGroupsToInvite |
