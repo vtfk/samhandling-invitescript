@@ -1,7 +1,8 @@
 # samhandling-invitescript
 Beskriver hvordan partnerorganisasjoner kan melde "lokale" AzureAD-brukere inn og ut som gjestebrukere i Samhandling.org. Dette håndteres av PowerShellskript som må kjøres hos den enkelte partnerorganisasjon. Her følger beskrivelse på hvordan dette gjøres.
 
-![System](/bilde1.png "En beskrivelse")
+![image](https://user-images.githubusercontent.com/10476574/206708780-61b122bd-61b3-403d-8f8b-854a6704bfb5.png)
+
 
 Administrasjon av tilgangen gjøres ved å melde brukere inn og ut av grupper i hver enkelt partnerorganisasjons AzureAD i Office365. Det kreves litt arbeid for å få på plass lokalt skript, og hvordan dette gjøres er beskrevet i dette dokumentet.
 Skriptet er utviklet av Vestfold og Telemark fylkeskommune. Denne veiledningen er en forenklet utgave av den fullstendige dokumentasjonen
@@ -10,7 +11,8 @@ Skriptet er utviklet av Vestfold og Telemark fylkeskommune. Denne veiledningen e
 ## Oppdatering til ModernAuth
 **Må gjøres før 31.12.2022**
 - Stopp scriptet (tasken) om det kjører før du gjør endringer
-- Åpne Powershell med brukeren som skal kjøre scriptet SCREENSHOT
+- Åpne Powershell med brukeren som skal kjøre scriptet. ![image](https://user-images.githubusercontent.com/10476574/206709727-ac3229cb-cb28-4017-a213-7301d278d2de.png)
+
 - Installer powershell PnP Module med kommandoen  `Install-Module -Name "PnP.PowerShell`
 - Kjør først kommandoen under for å sette nytt passord på PNP-brukeren du har fått fra VTFK:
    
