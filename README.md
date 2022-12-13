@@ -12,9 +12,9 @@
 - Logg på i påloggingsvinuet som dukker opp med PNP-brukeren du har fått av VTFK – sett nytt passord, og lagre dette trygt 
 - Kjør kommandoen under for å legge inn credentials med det NYE PASSORDET til PNP-brukeren i Windows Credential Store: 
 
-    `New-StoredCredential -Comment 'Samhandling-service-bruker' -Credentials $(Get-Credential) -Target '<PNP-bruker-upn>' -Persist ‘LocalMachine’` 
+    `New-StoredCredential -Comment 'Samhandling-service-bruker' -Credentials $(Get-Credential) -Target '<organisasjon>-pnp-user@samhandling.onmicrosoft.com' -Persist ‘LocalMachine’` 
 - Kjør kommandoen under for å bekrefte at passordet har blitt lagret og brukeren har tilgang på SharePoint:
-    `Connect-PnPOnline -Url https://samhandling.sharepoint.com/sites/b2bmembershipdata -Credential  (Get-StoredCredential -Target "<PNP-bruker-upn") `
+    `Connect-PnPOnline -Url https://samhandling.sharepoint.com/sites/b2bmembershipdata -Credential  (Get-StoredCredential -Target "<organisasjon>-pnp-user@samhandling.onmicrosoft.com") `
 - Oppdater konfigurasjon i invite-skriptet (linje 27 og 28 i originalskriptet. Se under:).
 ```ps1
 #region Script Configuration: Source Azure AD Tenant
@@ -28,7 +28,7 @@ $configSourceServiceAccountUPN = "Samhandlingb2binviteUser@organisasjon.no"
 
 ### DENNE MÅ LEGGES TIL ### 
 # Add UserPrincipalName for PnP Service Account in samhandling AAD tenant (provided by samhandling.org host county (VTFK))
-$configSourcePnPServiceAccountUPN = "organisasjon-pnp-user@samhandling.onmicrosoft.com"
+$configSourcePnPServiceAccountUPN = "<organisasjon>-pnp-user@samhandling.onmicrosoft.com"
 ### END DENNE MÅ LEGGES TIL ###
 
 
