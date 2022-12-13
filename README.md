@@ -1,18 +1,10 @@
-# samhandling-invitescript
-Beskriver hvordan partnerorganisasjoner kan melde "lokale" AzureAD-brukere inn og ut som gjestebrukere i Samhandling.org. Dette håndteres av PowerShellskript som må kjøres hos den enkelte partnerorganisasjon. Her følger beskrivelse på hvordan dette gjøres.
-
-![image](https://user-images.githubusercontent.com/10476574/206708780-61b122bd-61b3-403d-8f8b-854a6704bfb5.png)
-
-
-Administrasjon av tilgangen gjøres ved å melde brukere inn og ut av grupper i hver enkelt partnerorganisasjons AzureAD i Office365. Det kreves litt arbeid for å få på plass lokalt skript, og hvordan dette gjøres er beskrevet i dette dokumentet.
-Skriptet er utviklet av Vestfold og Telemark fylkeskommune. Denne veiledningen er en forenklet utgave av den fullstendige dokumentasjonen
-
-
-## Oppdatering til ModernAuth
+# Oppdatering til ModernAuth (for eksisterende organisasjoner)
 **Må gjøres før 31.12.2022**
 - Stopp scriptet (tasken) om det kjører før du gjør endringer
 - Åpne Powershell med brukeren som skal kjøre scriptet. ![image](https://user-images.githubusercontent.com/10476574/206709727-ac3229cb-cb28-4017-a213-7301d278d2de.png)
+- Sjekk at du har Windows Credential Manager på serveren. Om den mangler, installer med kommandoen:
 
+    `Install-Module -Name CredentialManager -AcceptLicense -AllowClobber -Force -Verbose -Scope AllUsers`
 - Installer powershell PnP Module med kommandoen  `Install-Module -Name "PnP.PowerShell`
 - Kjør først kommandoen under for å sette nytt passord på PNP-brukeren du har fått fra VTFK:
    
@@ -57,9 +49,19 @@ $configSourceExtensiveLogging = $true
 
 #endregion
 ```
-- Legg inn den nye [modul-filen](./Azure-AD-B2B-Invite-Module.psm1) (kall den andre _old først, også legger du inn den nye) 
+- **VIKTIG!** Bytt ut den eksisterende modulen *Azure-AD-B2B-Invite-Module.psm1* med den nye modulen som bruker PnP: [ny modul-fil](./Azure-AD-B2B-Invite-Module.psm1) (kall f. eks den andre module_old først, også legger du inn den nye som erstatter, slik at hovedskriptet bruker den nye modulen) 
 - Nå kan du kjøre scriptet som før (starte tasken)
-## Konfigurasjon
+
+# Oppsett av Invite-script for nye organisasjoner
+Beskriver hvordan partnerorganisasjoner kan melde "lokale" AzureAD-brukere inn og ut som gjestebrukere i Samhandling.org. Dette håndteres av PowerShellskript som må kjøres hos den enkelte partnerorganisasjon. Her følger beskrivelse på hvordan dette gjøres.
+
+![image](https://user-images.githubusercontent.com/10476574/206708780-61b122bd-61b3-403d-8f8b-854a6704bfb5.png)
+
+
+Administrasjon av tilgangen gjøres ved å melde brukere inn og ut av grupper i hver enkelt partnerorganisasjons AzureAD i Office365. Det kreves litt arbeid for å få på plass lokalt skript, og hvordan dette gjøres er beskrevet i dette dokumentet.
+Skriptet er utviklet av Vestfold og Telemark fylkeskommune. Denne veiledningen er en forenklet utgave av den fullstendige dokumentasjonen
+
+## Oppsett og førstegangs-konfigurasjon
 
 ### Forutsetninger
 - Organisasjonen må ha O365 lisenser
