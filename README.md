@@ -15,7 +15,7 @@
     `New-StoredCredential -Comment 'Samhandling-service-bruker' -Credentials $(Get-Credential) -Target '<organisasjon>-pnp-user@samhandling.onmicrosoft.com' -Persist ‘LocalMachine’` 
 - Kjør kommandoen under for å bekrefte at passordet har blitt lagret og brukeren har tilgang på SharePoint:
     `Connect-PnPOnline -Url https://samhandling.sharepoint.com/sites/b2bmembershipdata -Credential  (Get-StoredCredential -Target "<organisasjon>-pnp-user@samhandling.onmicrosoft.com") `
-- Oppdater konfigurasjon i invite-skriptet (linje 27 og 28 i originalskriptet. Se under:).
+- Oppdater konfigurasjon i invite-skriptet (linje 27, 28 og 90 i originalskriptet. Se under:).
 ```ps1
 #region Script Configuration: Source Azure AD Tenant
 
@@ -48,6 +48,33 @@ $configSourceMembershipDataCsv = "D:\localScriptPath\export-membershipdata-organ
 $configSourceExtensiveLogging = $true
 
 #endregion
+
+
+
+
+#region Set Parameters
+
+    # Set parameters
+    $GLOBAL:Configuration = @{
+
+        SourceTenantID = $configSourceTenantID
+        SourceSvcUPN = $configSourceServiceAccountUPN
+        
+        ##### DENNE RADEN MÅ OGSÅ LEGGES TIL ###  #####
+        SourcePnPSvcUPN = $configSourcePnPServiceAccountUPN 
+        ##### END DENNE RADEN MÅ OGSÅ LEGGES TIL ###  #####
+        
+        SourceSvcPwd = $configSourceServiceAccountSecurePassword
+        SourceAADInviteGroups = $configSourceGroupsToInvite
+        TargetTenantID = $configTargetTenantID
+        TargetSPOSiteUrl = $configTargetSPOSiteUrl
+        TargetSPODocLibrary = $configTargetSPODocLibraryName
+        LogfilePreviouslyInvitedUsers = $configSourceLogfilePreviouslyInvitedUsers
+        CsvfileMembershipData  = $configSourceMembershipDataCsv
+        ExtensiveLogging = $configSourceExtensiveLogging
+        
+    }
+
 ```
 - **VIKTIG!** Bytt ut den eksisterende modulen *Azure-AD-B2B-Invite-Module.psm1* med den nye modulen som bruker PnP: [ny modul-fil](./Azure-AD-B2B-Invite-Module.psm1) (kall f. eks den andre module_old først, også legger du inn den nye som erstatter, slik at hovedskriptet bruker den nye modulen) 
 - Nå kan du kjøre scriptet som før (starte tasken)
