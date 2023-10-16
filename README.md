@@ -114,8 +114,7 @@ Send kontoens UPN til VTFK på mailadresse *sdikt@vfk.no*, slik at VFK kan legge
 
 1.	Besøk URL'en og logg på med servicekontoens brukernavn og passord
 
-    SETT INN BILDE HER
-
+    
 2.	Kryptere passord for servicekontoen (skal benyttes i skript)
     1.	Start PowerShell ISE som Windows-servicekontoen som ble opprettet tidligere.
     2.	Kjør følgende kode:
