@@ -5,7 +5,9 @@
 - Sjekk at du har Windows Credential Manager på serveren. Om den mangler, installer med kommandoen:
 
     `Install-Module -Name CredentialManager -AcceptLicense -AllowClobber -Force -Verbose -Scope AllUsers`
-- Installer powershell PnP Module med kommandoen  `Install-Module -Name "PnP.PowerShell`
+- Installer powershell PnP Module med kommandoen  ~~`Install-Module -Name "PnP.PowerShell`~~ 
+> [!IMPORTANT]  
+> På grunn av [issues med nyere versjoner av PNP](https://learn.microsoft.com/en-us/answers/questions/1196279/import-module-could-not-load-file-or-assembly-syst), må eldre versjon legges inn: `Install-Module -Name "PnP.PowerShell" -RequiredVersion 1.12.0 -Force -AllowClobber`
 - Kjør først kommandoen under for å sette nytt passord på PNP-brukeren du har fått fra VTFK:
    
     `Connect-PnPOnline -Url https://samhandling.sharepoint.com/sites/b2bmembershipdata -Interactive`  
