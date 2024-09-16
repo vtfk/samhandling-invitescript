@@ -46,7 +46,7 @@ function Invoke-CsvFileUpload {
       # PNP version
       # Connect to PNP Online
       Write-EventLogB2B "Connecting to SharePoint Online: $SPOSiteUrl - Library: $SPODocLibraryName" -VerboseOnly:$true
-      Connect-PnPOnline -Url $SPOSiteUrl -Credential  (Get-StoredCredential -Target $GLOBAL:Configuration.SourcePnPSvcUPN)
+      Connect-PnPOnline -Url $SPOSiteUrl -ClientId "af65f65a-6b1b-4499-81e5-1540fba4431e" -Credential (Get-StoredCredential -Target $GLOBAL:Configuration.SourcePnPSvcUPN)
       # Upload CSV file to SPO Library
       Write-EventLogB2B "Trying to upload CSV file to SharePoint Online" -VerboseOnly:$true
       Add-PnPFile -Path $ExportFile -Folder $SPODocLibraryName -NewFileName (($SourceTenantID).Replace(".", "-") + ".csv")
