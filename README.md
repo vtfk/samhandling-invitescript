@@ -10,7 +10,7 @@
 > På grunn av [issues med nyere versjoner av PNP](https://learn.microsoft.com/en-us/answers/questions/1196279/import-module-could-not-load-file-or-assembly-syst), må eldre versjon legges inn: `Install-Module -Name "PnP.PowerShell" -RequiredVersion 1.12.0 -Force -AllowClobber`
 - Kjør først kommandoen under for å sette nytt passord på PNP-brukeren du har fått fra VTFK:
    
-    `Connect-PnPOnline -Url https://samhandling.sharepoint.com/sites/b2bmembershipdata clientid af65f65a-6b1b-4499-81e5-1540fba4431e -Interactive`  
+    `Connect-PnPOnline -Url https://samhandling.sharepoint.com/sites/b2bmembershipdata -clientid af65f65a-6b1b-4499-81e5-1540fba4431e -Interactive`  
 - Logg på i påloggingsvinuet som dukker opp med PNP-brukeren du har fått av VTFK – sett nytt passord, og lagre dette trygt 
 - Kjør kommandoen under for å legge inn credentials med det NYE PASSORDET til PNP-brukeren i Windows Credential Store: 
 
