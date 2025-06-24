@@ -16,7 +16,7 @@
 
     `New-StoredCredential -Comment 'Samhandling-service-bruker' -Credentials $(Get-Credential) -Target '<organisasjon>-pnp-user@samhandling.onmicrosoft.com' -Persist ‘LocalMachine’` 
 - Kjør kommandoen under for å bekrefte at passordet har blitt lagret og brukeren har tilgang på SharePoint:
-    `Connect-PnPOnline -Url https://samhandling.sharepoint.com/sites/b2bmembershipdata -Credential  (Get-StoredCredential -Target "<organisasjon>-pnp-user@samhandling.onmicrosoft.com") `
+    `Connect-PnPOnline -Url https://samhandling.sharepoint.com/sites/b2bmembershipdata -clientid af65f65a-6b1b-4499-81e5-1540fba4431e -Credential  (Get-StoredCredential -Target "<organisasjon>-pnp-user@samhandling.onmicrosoft.com") `
 - Oppdater konfigurasjon i invite-skriptet (linje 27, 28 og 90 i originalskriptet. Se under:).
 ```ps1
 #region Script Configuration: Source Azure AD Tenant
