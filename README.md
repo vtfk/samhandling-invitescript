@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> Dette repoet er arkivert. Ny og gjeldne versjon finner du her: [https://github.com/vestfoldfylke/samhandling-invitescript](https://github.com/vestfoldfylke/samhandling-invitescript)
+
 # Oppdatering til ModernAuth (for eksisterende organisasjoner)
 **Må gjøres før 31.12.2022**
 - Stopp scriptet (tasken) om det kjører før du gjør endringer
