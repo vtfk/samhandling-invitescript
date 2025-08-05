@@ -112,7 +112,7 @@ Det må opprettes en Windows-konto som skal kjøre det lokale skriptet.
 
 Det må også opprettes en servicekonto i AzureAD der brukere skal inviteres fra. Denne kontoen må ha lik suffix-adresse i UserPrincipalName (UPN) som brukerne som skal meldes inn. Det er ikke behov for spesielle privilegier. Eksempel på konto: *samhandlingb2binvite@vtfk.no*
 
-Send kontoens UPN til VTFK på mailadresse *sdikt@vfk.no*, slik at VFK kan legge denne inn i Samhandling.org tenanten. VTFK sender en URL i retur som må besøkes. 
+Send kontoens UPN til VTFK på mailadresse *servicedesk@vestfoldfylke.no*, slik at VFK kan legge denne inn i Samhandling.org tenanten. VTFK sender en URL i retur som må besøkes. 
 
 1.	Besøk URL'en og logg på med servicekontoens brukernavn og passord
 
